@@ -49,8 +49,9 @@ describe Bug, "when modified" do
     @bug.assignees[0].should eql('julius')
   end
 
-  it "should set importance property propery" do
-    @bug.important = true
-    @bug.important.should eql(true)
+  it "should successfully change importance property" do
+    lambda {
+      @bug.important = true
+    }.should change(@bug, :important).from(false).to(true)
   end
 end
