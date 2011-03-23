@@ -29,6 +29,10 @@ describe Bug, "when first created" do
   it "should have an empty list of asignees" do
     @bug.assignees.should be_empty
   end
+
+  it "should not have high importance" do
+    @bug.important.should_not eql(true)
+  end
 end
 
 describe Bug, "when modified" do
@@ -39,5 +43,10 @@ describe Bug, "when modified" do
   it "should assign new person properly" do
     @bug.assignees << 'julius'
     @bug.assignees[0].should eql('julius')
+  end
+
+  it "should set importance property propery" do
+    @bug.important = true
+    @bug.important.should eql(true)
   end
 end
