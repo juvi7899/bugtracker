@@ -33,6 +33,10 @@ describe Bug, "when first created" do
   it "should not have high importance" do
     @bug.important.should_not eql(true)
   end
+
+  it "should not be private" do
+    @bug.private.should_not eql(true)
+  end
 end
 
 describe Bug, "when modified" do
