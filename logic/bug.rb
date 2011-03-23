@@ -1,7 +1,7 @@
 require 'time'
 
 class Bug
-  attr_accessor :name, :priority, :status, :date
+  attr_accessor :name, :priority, :status, :date, :assignees
 
   def initialize(name, priority, creator)
     @name = name
@@ -9,6 +9,7 @@ class Bug
     @status = :new
     @creator = creator
     @date = Time.now
+    @assignees = []
   end
 
   def creator
