@@ -10,6 +10,8 @@ class Bug
     @creator = creator
     @date = Time.now
     @assignees = []
+    @important = false
+    @private = false
   end
 
   def creator
