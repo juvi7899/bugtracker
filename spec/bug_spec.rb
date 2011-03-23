@@ -3,7 +3,15 @@ require '../logic/bug'
 
 describe Bug, "when first created" do
   before(:each) do
-    @bug = Bug.new('julius')
+    @bug = Bug.new('something is wrong', :normal, 'julius')
+  end
+
+  it "should have a correct name" do
+    @bug.name.should eql('something is wrong')
+  end
+
+  it "should have a default (normal) priority" do
+    @bug.priority.should eql(:normal)
   end
 
   it "should have a status of 'NEW'" do
