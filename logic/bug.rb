@@ -1,7 +1,7 @@
 require 'time'
 
 class Bug
-  attr_accessor :name, :priority, :status, :date, :assignees
+  attr_accessor :name, :priority, :status, :date, :assignees, :important
 
   def initialize(name, priority, creator)
     @name = name
