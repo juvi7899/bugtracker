@@ -16,6 +16,10 @@ describe User, "when first created" do
   it "should have a correct type" do
     @user.type.should eql(:admin)
   end
+
+  it "should not be banned" do
+    @user.banned.should_not eql(true)
+  end
 end
 
 describe User, "when modified" do
