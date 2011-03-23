@@ -1,5 +1,4 @@
 require '../logic/user'
-require 'digest/sha1'
 
 describe User, "when first created" do
   before(:each) do
