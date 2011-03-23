@@ -29,14 +29,24 @@ describe Bug, "when first created" do
   it "should have an empty list of asignees" do
     @bug.assignees.should be_empty
   end
-
+  
+  # Does not check if field exists
   it "should not have high importance" do
     @bug.important.should_not eql(true)
   end
 
+  # Does not check if field exists
   it "should not be private" do
     @bug.private.should_not eql(true)
   end
+
+  it "should have default importance" do
+    @bug.important.should eql(false)
+  end
+
+  it "should have default privacy" do
+    @bug.private.should eql(false)
+  end 
 end
 
 describe Bug, "when modified" do
