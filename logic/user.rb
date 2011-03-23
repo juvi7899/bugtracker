@@ -7,6 +7,7 @@ class User
     @name = name
     @password = Digest::SHA1.hexdigest(password)
     @type = type
+    @banned = false
   end
 
   def password
