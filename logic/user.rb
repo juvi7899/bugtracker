@@ -1,7 +1,7 @@
 require 'digest/sha1'
 
 class User
-  attr_accessor :name, :type
+  attr_accessor :name, :type, :banned
 
   def initialize(name, password, type)
     @name = name
