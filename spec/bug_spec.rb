@@ -25,4 +25,19 @@ describe Bug, "when first created" do
   it "should return creator's name" do
     @bug.creator.should eql('julius')
   end
+
+  it "should have an empty list of asignees" do
+    @bug.assignees.should be_empty
+  end
+end
+
+describe Bug, "when modified" do
+  before(:each) do
+    @bug = Bug.new('something is wrong', :normal, 'julius')
+  end
+
+  it "should assign new person properly" do
+    @bug.assignees << 'julius'
+    @bug.assignees[0].should eql('julius')
+  end
 end
