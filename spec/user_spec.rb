@@ -17,8 +17,13 @@ describe User, "when first created" do
     @user.type.should eql(:admin)
   end
 
+  # Does not check if field exists
   it "should not be banned" do
     @user.banned.should_not eql(true)
+  end
+
+  it "should be not banned" do
+    @user.banned.should eql(false)
   end
 end
 
