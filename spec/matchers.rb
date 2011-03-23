@@ -1,5 +1,5 @@
-RSpec::Matchers.define :be_close_to_now do |delta|
+RSpec::Matchers.define :be_just_now do
   match do |actual|
-    Time.now - actual < delta
+    Time.now - actual < 1
   end
 end
