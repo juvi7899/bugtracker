@@ -17,3 +17,14 @@ describe User, "when first created" do
     @user.type.should eql(:admin)
   end
 end
+
+describe User, "when modified" do
+  before(:each) do
+    @user = User.new('julius', 'secret', :admin)
+  end
+
+  it "should create a hash when changing password" do
+    @user.password = 'qwerty'
+    @user.password.should eql('b1b3773a05c0ed0176787a4f1574ff0075f7521e')
+  end
+end
