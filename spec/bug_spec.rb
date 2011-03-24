@@ -64,4 +64,8 @@ describe Bug, "when modified" do
       @bug.important = true
     }.should change(@bug, :important).from(false).to(true)
   end
+
+  it "should not allow to change creator" do
+    lambda { @user.creator = 'somebody' }.should raise_exception(NoMethodError)
+  end
 end
