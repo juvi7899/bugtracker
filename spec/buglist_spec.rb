@@ -39,6 +39,7 @@ describe BugList, "when modified" do
   end
 
   it "should perform a search by date successfully" do
-    @bugs.find(:date => Time.now).should include(@bug)
+    today = Date.parse(Time.now.to_s)
+    @bugs.find(:date => today).should include(@bug)
   end
 end
