@@ -20,42 +20,23 @@ class BugList
   def find(search)
     result = []
     @bugs.each do |bug|
-      if search[:name] 
-        if bug.name.downcase.index(search[:name].downcase)
-          result << bug
-        else
-          result.delete(bug)
+      search.each_key do |search_by|
+        case search_by
+          when :name, :creator
+            if bug.send(search_by).downcase.index(search[search_by].downcase)
+              result << bug
+            else
+              result.delete(bug)
+            end
+          else
+            if bug.send(search_by) == search[search_by]
+              result << bug
+            else
+              result.delete(bug)
+            end
+          end
         end
       end
-      if search[:priority]
-        if bug.priority == search[:priority]
-          result << bug
-        else
-          result.delete(bug)
-        end
-      end
-      if search[:status]
-        if bug.status == search[:status]
-          result << bug
-        else
-          result.delete(bug)
-        end
-      end
-      if search[:creator]
-        if bug.creator == search[:creator]
-          result << bug
-        else
-          result.delete(bug)
-        end
-      end
-      if search[:date]
-        if Date.parse(bug.date.to_s) == search[:date]
-          result << bug
-        else
-          result.delete(bug)
-        end
-      end
-    end
     result
   end
 end

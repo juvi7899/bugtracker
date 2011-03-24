@@ -18,8 +18,8 @@ describe Bug, "when first created" do
     @bug.status.should eql(:new)
   end
 
-  it "should have a current date" do
-    @bug.date.should be_just_now
+  it "should have a current time" do
+    @bug.time.should be_just_now
   end
 
   it "should return creator's name" do

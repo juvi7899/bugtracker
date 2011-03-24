@@ -42,4 +42,8 @@ describe BugList, "when modified" do
     today = Date.parse(Time.now.to_s)
     @bugs.find(:date => today).should include(@bug)
   end
+
+  it "should perform a search by multiple fields successfully" do
+    @bugs.find(:name => 'thing is', :priority => :low).should_not include(@bug)
+  end
 end
