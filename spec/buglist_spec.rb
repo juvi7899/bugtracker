@@ -15,6 +15,7 @@ describe BugList, "when modified" do
   before(:each) do
     @bugs = BugList.new
     @bug = Bug.new('something is wrong', :normal, 'julius')
+    @bugs.add(@bug)
   end
 
   it "should add a bug successfully" do
@@ -22,22 +23,22 @@ describe BugList, "when modified" do
   end
 
   it "should perform a case-insensitive search by name successfully" do
-    @bugs.find(name = 'thing is').should include(@bug)
+    @bugs.find(:name => 'thing is').should include(@bug)
   end
 
   it "should perform a search by priority successfully" do
-    @bugs.find(priority = :normal).should include(@bug)
+    @bugs.find(:priority => :normal).should include(@bug)
   end
 
   it "should perform a search by status successfully" do
-    @bugs.find(status = :new).should include(@bug)
+    @bugs.find(:status => :new).should include(@bug)
   end
 
   it "should perform a case-insensitive search by creator successfully" do
-    @bugs.find(creator = 'julius').should include(@bug)
+    @bugs.find(:creator => 'julius').should include(@bug)
   end
 
   it "should perform a search by date successfully" do
-    @bugs.find(date = Time.now).should include(@bug)
+    @bugs.find(:date => Time.now).should include(@bug)
   end
 end
