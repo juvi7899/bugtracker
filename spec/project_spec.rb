@@ -12,4 +12,8 @@ describe Project, "when first created" do
   it "should have a correct description" do
     @project.description.should eql('Test project')
   end
+
+  it "should have zero bugs assigned" do
+    @project.bugs.should be_empty
+  end
 end
