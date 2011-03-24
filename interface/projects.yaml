@@ -1,0 +1,10 @@
+--- 
+- !ruby/object:Project 
+  description: Test project
+  name: proj1
+- !ruby/object:Project 
+  description: Test project
+  name: proj2
+- !ruby/object:Project 
+  description: Test project
+  name: proj3
