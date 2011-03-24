@@ -20,8 +20,10 @@ describe Comment, "when modified" do
     @comment = Comment.new('julius', 'Lorem Ipsum')
   end
 
-  it "should raise an exception when adding not existing file" do
+  it "should raise an exception when adding non-existing file" do
     FileUtils.remove_file("#{Dir.tmpdir}/comment_spec.test", true)
-    lambda { @comment.file = "#{Dir.tmpdir}/comment_spec.test" }.should raise_exception(Errno::ENOENT)
+    lambda {
+      @comment.file = "#{Dir.tmpdir}/comment_spec.test"
+    }.should raise_exception(Errno::ENOENT)
   end
 end
