@@ -1,12 +1,17 @@
+#!/usr/bin/env ruby
+
 require 'yaml'
 require '../logic/user'
 require '../logic/project'
+require '../logic/bug'
 
 class Main
   def initialize
     puts "Login failed. Try again" until @user = login
     puts "Invalid project" until @project = select_project
     puts "Invalid bug" until @bug = select_bug
+    show_bug(@bug)
+    exit
   end
 
   def login
@@ -59,7 +64,7 @@ class Main
 
       puts "Bugs: "
       i = 0
-      projects.each do |project|
+      bugs.each do |bug|
         puts "#{i} #{bug.name}"
         i += 1
       end
@@ -73,6 +78,16 @@ class Main
         puts "No bugs present"
         exit
     end
+  end
+
+  def show_bug(bug)
+    puts "Creator: #{bug.creator}"
+    puts "Important: #{bug.important.to_s}"
+    puts "Name: #{bug.name}"
+    puts "Priority: #{bug.priority.to_s}"
+    puts "Private: #{bug.private.to_s}"
+    puts "Status: #{bug.status.to_s}"
+    puts "Time: #{bug.time.to_s}"
   end
 
   def load(file_name)
