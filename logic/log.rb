@@ -1,9 +1,17 @@
 class Log
   def initialize
-    @size = 0
+    @entries = []
   end
 
   def size
-    @size
+    @entries.size
+  end
+
+  def add(message)
+    @entries << message
+  end
+
+  def [](index)
+    @entries[index]
   end
 end

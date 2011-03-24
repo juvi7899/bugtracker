@@ -19,4 +19,9 @@ describe Log, "when modified" do
     @log.add('sample message')
     @log[0].should eql('sample message')
   end
-end 
+
+  it "should perform a search successfully" do
+    @log.add('sample message')
+    @log.find('ple mes').should include('sample message')
+  end
+end
