@@ -19,11 +19,15 @@ describe User, "when first created" do
 
   # Does not check if field exists
   it "should not be banned" do
-    @user.banned.should_not eql(true)
+    @user.banned.should_not be_true
   end
 
   it "should be not banned" do
-    @user.banned.should eql(false)
+    @user.banned.should be_false
+  end
+  
+  it "should have a current registration time" do
+    @user.registered.should be_just_now
   end
 end
 

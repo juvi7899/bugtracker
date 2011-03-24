@@ -18,7 +18,7 @@ describe Bug, "when first created" do
     @bug.status.should eql(:new)
   end
 
-  it "should have a current time" do
+  it "should have a current creation time" do
     @bug.time.should be_just_now
   end
 
@@ -66,6 +66,8 @@ describe Bug, "when modified" do
   end
 
   it "should not allow to change creator" do
-    lambda { @user.creator = 'somebody' }.should raise_exception(NoMethodError)
+    lambda {
+      @user.creator = 'somebody'
+    }.should raise_exception(NoMethodError)
   end
 end

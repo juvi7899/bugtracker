@@ -23,13 +23,13 @@ class BugList
       search.each_key do |search_by|
         case search_by
           when :name, :creator
-            if bug.send(search_by).downcase.index(search[search_by].downcase)
+            if bug.__send__(search_by).downcase.index(search[search_by].downcase)
               result << bug
             else
               result.delete(bug)
             end
           else
-            if bug.send(search_by) == search[search_by]
+            if bug.__send__(search_by) == search[search_by]
               result << bug
             else
               result.delete(bug)

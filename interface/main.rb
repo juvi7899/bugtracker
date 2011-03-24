@@ -8,7 +8,7 @@ require '../logic/bug'
 class Main
   def initialize
     puts "Login failed. Try again" until @user = login
-    puts "Invalid project" until @project = select_project
+    #puts "Invalid project" until @project = select_project
     puts "Invalid bug" until @bug = select_bug
     show_bug(@bug)
     exit
@@ -43,11 +43,11 @@ class Main
       puts "Projects: "
       i = 0
       projects.each do |project|
-        puts "#{i} #{project.name}"
+        puts "#{i}: #{project.name}"
         i += 1
       end
 
-      print "Select project number: "
+      print "Input project number: "
       project_no = gets.to_i
 
       return projects[project_no]
@@ -65,11 +65,11 @@ class Main
       puts "Bugs: "
       i = 0
       bugs.each do |bug|
-        puts "#{i} #{bug.name}"
+        puts "#{i}: #{bug.name}"
         i += 1
       end
 
-      print "Select bug number: "
+      print "Input bug number: "
       bug_no = gets.to_i
 
       return bugs[bug_no]
@@ -81,6 +81,7 @@ class Main
   end
 
   def show_bug(bug)
+    puts "Bug info:" 
     puts "Creator: #{bug.creator}"
     puts "Important: #{bug.important.to_s}"
     puts "Name: #{bug.name}"
