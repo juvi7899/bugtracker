@@ -71,3 +71,15 @@ describe Bug, "when modified" do
     }.should raise_exception(NoMethodError)
   end
 end
+
+describe Bug, "when using it as an active record" do
+  before(:each) do
+    @bug = Bug.new('something is wrong', :normal, 'julius')
+  end
+
+  it "should add a bug successfully" do
+    @bugs = [ @bug ]
+    @bug.create(:name => "something is wrong", :priority => :normal, :status => :new)
+    @bug.find(:all).should eql(@bugs)
+  end
+end
