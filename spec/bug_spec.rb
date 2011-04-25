@@ -1,4 +1,5 @@
 require 'matchers'
+require 'date'
 require './logic/bug'
 
 describe Bug, "when first created" do
@@ -46,7 +47,11 @@ describe Bug, "when first created" do
 
   it "should have default privacy" do
     @bug.private.should eql(false)
-  end 
+  end
+
+  it "should have a correct creation date" do
+    @bug.date.should eql(Date.today)
+  end
 end
 
 describe Bug, "when modified" do
@@ -72,14 +77,3 @@ describe Bug, "when modified" do
   end
 end
 
-describe Bug, "when using it as an active record" do
-  before(:each) do
-    @bug = Bug.new('something is wrong', :normal, 'julius')
-  end
-
-  it "should add a bug successfully" do
-    @bugs = [ @bug ]
-    @bug.create(:name => "something is wrong", :priority => :normal, :status => :new)
-    @bug.find(:all).should eql(@bugs)
-  end
-end

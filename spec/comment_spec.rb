@@ -13,6 +13,10 @@ describe Comment, "when first created" do
   it "should have a correct comment text" do
     @comment.text.should eql('Lorem Ipsum')
   end
+
+  it "should have no files attached" do
+    @comment.file.should be_nil
+  end
 end
 
 describe Comment, "when modified" do
@@ -25,5 +29,9 @@ describe Comment, "when modified" do
     lambda {
       @comment.file = "#{Dir.tmpdir}/comment_spec.test"
     }.should raise_exception(Errno::ENOENT)
+  end
+
+  it "should add a file successfully" do
+    @comment.file = "./comment_spec.rb"
   end
 end
