@@ -1,5 +1,5 @@
 require 'matchers'
-require '../logic/bug'
+require './logic/bug'
 
 describe Bug, "when first created" do
   before(:each) do

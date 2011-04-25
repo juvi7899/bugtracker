@@ -1,4 +1,4 @@
-require '../logic/log'
+require './logic/log'
 
 describe Log, "when first created" do
   before(:each) do

@@ -1,4 +1,4 @@
-require '../logic/comment'
+require './logic/comment'
 require 'tmpdir'
 
 describe Comment, "when first created" do

@@ -1,4 +1,4 @@
-require '../logic/user'
+require './logic/user'
 
 describe User, "when first created" do
   before(:each) do

@@ -1,4 +1,4 @@
-require '../logic/project'
+require './logic/project'
 
 describe Project, "when first created" do
   before(:each) do
