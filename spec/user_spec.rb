@@ -2,7 +2,7 @@ require './logic/user'
 
 describe User, "when first created" do
   before(:each) do
-    @users = User.new(:name => 'Julius', :password => 'Secret', type => :admin)
+    @users = User.new(:name => 'julius', :password => 'secret', :type => :admin)
   end
 
   it "should have a correct name" do
@@ -33,7 +33,7 @@ end
 
 describe User, "when modified" do
   before(:each) do
-    @users = User.new(:name => 'Julius', :password => 'Secret', type => :admin)
+    @users = User.new(:name => 'julius', :password => 'secret', :type => :admin)
   end
 
   it "should create a hash when changing password" do

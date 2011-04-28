@@ -1,30 +1,24 @@
 require 'digest/sha1'
 require 'time'
+require './logic/simplerecord'
 
-class User
-  attr_accessor :name, :type, :banned
+class User < SimpleRecord
+  has_one :name, :password, :type, :banned, :registered
 
-  def initialize(name, password, type)
-    @name = name
-    @password = Digest::SHA1.hexdigest(password)
-    @type = type
+  def initialize(params = {})
+    super()
+    @name = params[:name]
+    @password = Digest::SHA1.hexdigest(params[:password])
+    @type = params[:type]
     @banned = false
     @registered = Time.now
-  end
-
-  def password
-    @password
   end
 
   def password=(password)
     @password = Digest::SHA1.hexdigest(password)
   end
-  
-  def registered
-		@registered
-	end
 
   def login(username, password)
-    self.class.find(:first, :username => username, :password => Digest::SHA1.hexdigest(password))
+    self.class.find(:first, :name => username, :password => Digest::SHA1.hexdigest(password))
   end
 end
