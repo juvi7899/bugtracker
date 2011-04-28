@@ -1,5 +1,7 @@
-class Project
-  attr_accessor :name, :description, :bugs
+require './logic/simplerecord'
+
+class Project < SimpleRecord
+  has_one :name, :description, :bugs
 
   def initialize(name, description)
     @name = name
