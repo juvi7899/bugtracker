@@ -1,24 +1,25 @@
 require 'time'
+require './logic/simplerecord'
 
-class Bug
-  attr_accessor :name, :priority, :status, :time, :assignees, :important, :private
+class Bug < SimpleRecord
+  has_one :name, :priority, :status, :creator, :time, :date, :assignees, :important, :private
 
-  def initialize(name, priority, creator)
-    @name = name
-    @priority = priority
+  def initialize(params = {})
+    @name = params[:name]
+    @priority = params[:priority]
     @status = :new
-    @creator = creator
+    @creator = params[:creator]
     @time = Time.now
     @assignees = []
     @important = false
     @private = false
   end
 
-  def creator
-    @creator
-  end
-
   def date
     @date || @date = Date.parse(@time.to_s)
+  end
+
+  def creator=(new_creator)
+    raise NoMethodError
   end
 end
