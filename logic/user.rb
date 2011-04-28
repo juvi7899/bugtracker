@@ -18,7 +18,7 @@ class User < SimpleRecord
     @password = Digest::SHA1.hexdigest(password)
   end
 
-  def login(username, password)
-    self.class.find(:first, :name => username, :password => Digest::SHA1.hexdigest(password))
+  def self.login(username, password)
+    self.find(:first, :name => username, :password => Digest::SHA1.hexdigest(password))
   end
 end
