@@ -72,8 +72,14 @@ class SimpleRecord
       @records.each_value do |record|
         matching = true
         params.each_key do |key|
-          if record.__send__(key) != params[key]
-            matching = false
+          if params[key].class.to_s == "String"
+            if record.__send__(key).downcase != params[key].downcase
+              matching = false
+            end
+          else
+            if record.__send__(key) != params[key]
+              matching = false
+            end
           end
         end
         if matching

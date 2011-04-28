@@ -27,6 +27,12 @@ describe SimpleRecord do
     element.password.should eql("Slaptazodis")
   end
 
+  it "should perform a case-insensitive search successfully" do
+    @logins.save
+    element = LoginList.find(:first, :username => "VARDENIS")
+    element.password.should eql("Slaptazodis")
+  end
+
   it "should load a file successfully" do
     LoginList.read('LoginList.spec')
     elements = LoginList.find(:all)
@@ -38,6 +44,29 @@ describe SimpleRecord do
     elements = LoginList.find(:all)
     elements[0].destroy
     elements = LoginList.find(:all)
+    elements.should be_empty
+  end
+
+  it "should write to file successfully" do
+    lines_1 = []
+    lines_2 = []
+
+    @logins.save
+    LoginList.write('LoginList.temp')
+    file = File.open("storage/LoginList.yaml", "r")
+    while (line = file.gets)
+      lines_1 << line
+    end
+    file = File.open("storage/LoginList.temp.yaml", "r")
+    while (line = file.gets)
+      lines_2 << line
+    end
+    lines_1.should eql(lines_2)
+  end
+
+  it "should clear records successfully" do
+    LoginList.clear
+    elements = LoginList.find(:all) 
     elements.should be_empty
   end
 end
