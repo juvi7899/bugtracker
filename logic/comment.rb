@@ -1,13 +1,10 @@
 class Comment
-  attr_accessor :name, :text
+  has_one :name, :text, :file
 
-  def initialize(name, text)
-    @name = name
-    @text = text
-  end
-
-  def file
-    @file
+  def initialize(params = {})
+    super()
+    @name = params[:name]
+    @text = params[:text]
   end
 
   def file=(file_name)
