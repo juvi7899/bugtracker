@@ -1,4 +1,6 @@
-class Comment
+require './logic/simplerecord'
+
+class Comment < SimpleRecord
   has_one :name, :text, :file
 
   def initialize(params = {})
