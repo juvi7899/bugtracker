@@ -32,6 +32,6 @@ describe Comment, "when modified" do
   end
 
   it "should add a file successfully" do
-    @comment.file = "./comment_spec.rb"
+    @comment.file = "/home/julius/bugtracker/README"
   end
 end

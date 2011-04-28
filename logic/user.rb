@@ -23,4 +23,8 @@ class User
   def registered
 		@registered
 	end
+
+  def login(username, password)
+    self.class.find(:first, :username => username, :password => Digest::SHA1.hexdigest(password))
+  end
 end

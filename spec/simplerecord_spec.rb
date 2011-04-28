@@ -1,9 +1,10 @@
-require './logic/simplerecord.rb'
+require './logic/simplerecord'
 
 class LoginList < SimpleRecord
-  attr_accessor :username, :password
+  has_one :username, :password
 
   def initialize(params)
+    super()
     @username = params[:username]
     @password = params[:password]
   end
@@ -11,25 +12,32 @@ end
 
 describe SimpleRecord do
   before(:each) do
-    @logins = LoginList.new
-    @logins.new(:username => "Vardenis", :password => "Slaptazodis")
+    LoginList.clear
+    @logins = LoginList.new(:username => "Vardenis", :password => "Slaptazodis")
   end
 
   it "should save a record successfully" do
-    lambda {
-      @logins.save
-    }.should_not raise_exception
+    @logins.save.should be_true
   end
 
   it "should find the record successfully" do
+    @logins.save
     @logins.password = nil
-    @logins.find(:username => "Vardenis", :password => "Slaptazodis")
-    @logins.password.should eql("Slaptazodis")
+    element = LoginList.find(:first, :username => "Vardenis", :password => "Slaptazodis")
+    element.password.should eql("Slaptazodis")
   end
 
-  it "should load a record successfully" do
-    @logins.username = nil
-    @logins.load
-    @logins.username.should eql("Vardenis")
+  it "should load a file successfully" do
+    LoginList.read('LoginList.spec')
+    elements = LoginList.find(:all)
+    elements[0].username.should eql("Petras")
+  end
+
+  it "should destroy a record successfully" do
+    LoginList.read('LoginList.spec')
+    elements = LoginList.find(:all)
+    elements[0].destroy
+    elements = LoginList.find(:all)
+    elements.should be_empty
   end
 end
