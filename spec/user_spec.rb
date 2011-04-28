@@ -29,6 +29,12 @@ describe User, "when first created" do
   it "should have a current registration time" do
     @users.registered.should be_just_now
   end
+
+  it "should allow login with correct credentials" do
+    @users.save
+    @user = User.login('julius', 'secret')
+    @user.name.should eql('julius')
+  end
 end
 
 describe User, "when modified" do
