@@ -1,7 +1,9 @@
 require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new(:spec)
 
-task :default => :spec
+task :run do
+  RSpec::Core::RakeTask.new(:spec)
+  Rake::Task[:spec].invoke
+  `xdg-open coverage/index.html`
+end
 
-`xdg-open coverage/index.html`
-
+task :default => :run

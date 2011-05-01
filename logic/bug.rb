@@ -5,6 +5,7 @@ class Bug < SimpleRecord
   has_one :name, :priority, :status, :creator, :time, :date, :assignees, :important, :private
 
   def initialize(params = {})
+    super()
     @name = params[:name]
     @priority = params[:priority]
     @status = :new

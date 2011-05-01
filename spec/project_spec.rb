@@ -2,7 +2,7 @@ require './logic/project'
 
 describe Project, "when first created" do
   before(:each) do
-    @projects = Project.new('project R', 'Test project') 
+    @projects = Project.new(:name => 'project R', :description => 'Test project') 
   end
 
   it "should have a correct name" do

@@ -1,5 +1,5 @@
 require 'Qt4'
-require './loginwindow'
+require './interface/loginwindow'
 
 app = Qt::Application.new(ARGV)
 LoginWindow.new

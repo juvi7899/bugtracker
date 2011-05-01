@@ -25,6 +25,7 @@ class SimpleRecord
 
     def read(file_name = self.to_s)
       File.open("storage/" + file_name + ".yaml", "r") { |file| @records = YAML.load(file) }
+      @instance_count = @records[@records.keys[-1]].instance_id
     end
 
     def write(file_name = self.to_s)

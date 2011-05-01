@@ -1,5 +1,5 @@
 ---
-6: !ruby/object:LoginList
-  instance_id: 6
+2: !ruby/object:LoginList
+  instance_id: 2
   username: Vardenis
   password: Slaptazodis

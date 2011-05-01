@@ -27,6 +27,12 @@ describe SimpleRecord do
     element.password.should eql("Slaptazodis")
   end
 
+  it "should not find a record with incorrect search params" do
+    @logins.save
+    elements = LoginList.find(:all, :badfield => "Something")
+    elements.should be_empty
+  end
+
   it "should perform a case-insensitive search successfully" do
     @logins.save
     element = LoginList.find(:first, :username => "VARDENIS")
