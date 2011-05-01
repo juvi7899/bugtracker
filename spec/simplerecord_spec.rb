@@ -1,12 +1,13 @@
 require './logic/simplerecord'
 
 class LoginList < SimpleRecord
-  has_one :username, :password
+  has_one :username, :password, :number
 
   def initialize(params)
     super()
     @username = params[:username]
     @password = params[:password]
+    @number = 0
   end
 end
 
@@ -27,7 +28,13 @@ describe SimpleRecord do
     element.password.should eql("Slaptazodis")
   end
 
-  it "should not find a record with incorrect search params" do
+  it "should find no records when searching for non-existing records" do
+    @logins.save
+    elements = LoginList.find(:all, :username => "Something", :number => 1)
+    elements.should be_empty
+  end
+
+  it "should find no records when using incorrect search params" do
     @logins.save
     elements = LoginList.find(:all, :badfield => "Something")
     elements.should be_empty
