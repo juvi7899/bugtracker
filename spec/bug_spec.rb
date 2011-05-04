@@ -4,7 +4,7 @@ require './logic/bug'
 
 describe Bug, "when first created" do
   before(:each) do
-    @bugs = Bug.new(:name => 'something is wrong', :priority => :normal, :creator => 'julius')
+    @bugs = Bug.new(:name => 'something is wrong', :priority => :normal, :creator => 'julius', :project => 'projektas')
   end
 
   it "should have a correct name" do
@@ -51,6 +51,10 @@ describe Bug, "when first created" do
 
   it "should have a correct creation date" do
     @bugs.date.should eql(Date.today)
+  end
+
+  it "should have a correct project name" do
+    @bugs.project.should eql('projektas')
   end
 end
 

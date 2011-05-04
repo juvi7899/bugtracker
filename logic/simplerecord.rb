@@ -95,7 +95,11 @@ class SimpleRecord
           end
         end
       end
-      result
+      if what == :first
+        nil
+      else
+        result
+      end
     end
   end
 end

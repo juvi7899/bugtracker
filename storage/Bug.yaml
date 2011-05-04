@@ -1,0 +1,12 @@
+--- 
+1: !ruby/object:Bug 
+  assignees: []
+
+  creator: admin
+  important: false
+  instance_id: 1
+  name: something is wrong
+  priority: :normal
+  private: false
+  status: :new
+  time: 2011-05-04 19:07:14.271942 +03:00

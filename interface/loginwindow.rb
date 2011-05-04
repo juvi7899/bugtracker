@@ -24,12 +24,11 @@ class LoginWindow < Qt::Widget
     User.read
     @user = User.login(@username_edit.text, @password_edit.text)
     if @user
-      Qt::MessageBox::critical(self, "Login failed", "Login failed\nPlease check your username and password")
-    else
-      puts @user.inspect
       main_window = MainWindow.new
       main_window.show
       hide
+    else
+      Qt::MessageBox::critical(self, "Login failed", "Login failed\nPlease check your username and password")
     end
   end
 end
