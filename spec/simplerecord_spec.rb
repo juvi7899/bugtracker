@@ -40,6 +40,12 @@ describe SimpleRecord do
     elements.should be_empty
   end
 
+  it "should return nil when searching for one record and no records were found" do
+    @logins.save
+    elements = LoginList.find(:first, :badfield => "Something")
+    elements.should be_nil
+  end
+
   it "should perform a case-insensitive search successfully" do
     @logins.save
     element = LoginList.find(:first, :username => "VARDENIS")

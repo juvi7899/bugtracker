@@ -1,6 +1,6 @@
 require 'Qt4'
 require './logic/user'
-require './interface/bugwindow'
+require './interface/mainwindow'
 
 class LoginWindow < Qt::Widget
   def initialize
@@ -24,10 +24,12 @@ class LoginWindow < Qt::Widget
     User.read
     @user = User.login(@username_edit.text, @password_edit.text)
     if @user
-      bug_window = BugWindow.new
-      hide
-    elsif
       Qt::MessageBox::critical(self, "Login failed", "Login failed\nPlease check your username and password")
+    else
+      puts @user.inspect
+      main_window = MainWindow.new
+      main_window.show
+      hide
     end
   end
 end
