@@ -96,7 +96,35 @@ describe SimpleRecord do
   end
 
   it "should create a new file successfully" do
+    File.delete('storage/LoginList.new.yaml')
     LoginList.read_or_create('LoginList.new')
-    File('storage/LoginList.new.yaml').should exist
+    File.exists?('storage/LoginList.new.yaml').should be_true
+  end
+
+  it "should load a file successfully after creating it" do
+    lambda {
+      LoginList.read('LoginList.new')
+    }.should_not raise_exception
+  end
+
+  it "should load a non-empty file with no records successfully" do
+    LoginList.clear
+    LoginList.write('LoginList.new')
+    lambda {
+      LoginList.read('LoginList.new')
+    }.should_not raise_exception
+  end
+
+  it "should search find simmilar records when searching with ~" do
+    @logins.save
+    element = LoginList.find(:first, :username => '~vard')
+    element.username.should eql("Vardenis")
+  end
+
+  # Required for coverage
+  it "should not find any simmilar records when doing bad search with ~" do
+    @logins.save
+    element = LoginList.find(:first, :username => '~xyz')
+    element.should be_nil
   end
 end

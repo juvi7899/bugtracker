@@ -24,8 +24,28 @@ class SimpleRecord
     @instance_count
 
     def read(file_name = self.to_s)
-      File.open("storage/" + file_name + ".yaml", "r") { |file| @records = YAML.load(file) }
-      @instance_count = @records[@records.keys.last].instance_id
+      file_path = "storage/" + file_name + ".yaml"
+
+      if File.zero?(file_path)
+        @records = {}
+        @instance_count = 0
+      else
+        File.open("storage/" + file_name + ".yaml", "r") { |file| @records = YAML.load(file) }
+        if @records.size > 0
+          @instance_count = @records[@records.keys.last].instance_id
+        else
+          @instance_count = 0
+        end
+      end
+    end
+
+    def read_or_create(file_name = self.to_s)
+      file_path = "storage/" + file_name + ".yaml"
+
+      if !File.exists?(file_path)
+        FileUtils.touch(file_path)
+      end
+      read(file_name)
     end
 
     def write(file_name = self.to_s)
@@ -34,6 +54,7 @@ class SimpleRecord
 
     def clear
       @records = {}
+      @instance_count = 0
     end
 
     def size
@@ -79,7 +100,11 @@ class SimpleRecord
         params.each_key do |key|
           begin
             if params[key].class.to_s == "String"
-              if record.__send__(key).downcase != params[key].downcase
+              if params[key][0] == '~'
+                if !record.__send__(key).downcase.index(params[key].downcase[1,params[key].size])
+                  matching = false
+                end
+              elsif record.__send__(key).downcase != params[key].downcase
                 matching = false
               end
             else

@@ -25,9 +25,9 @@ class MainWindow < Qt::MainWindow
     @ui.deleteBugButton.connect(SIGNAL(:clicked), &method(:bug_delete))
     Qt::Object.connect(@ui.projectList, SIGNAL('itemClicked(QListWidgetItem*)'), self, SLOT('project_clicked(QListWidgetItem*)'))
 
-    Project.read
-    Bug.read
-    Comment.read
+    Project.read_or_create
+    Bug.read_or_create
+    Comment.read_or_create
 
     show_projects
   end
@@ -50,7 +50,8 @@ class MainWindow < Qt::MainWindow
       if @ui.searchEdit.text == ''
         @bugs = Bug.find(:all, :project => @ui.projectList.currentItem.text)
       else
-        @bugs = Bug.find(:all, :project => @ui.projectList.currentItem.text, :name => @ui.searchEdit.text)
+        query = '~' + @ui.searchEdit.text
+        @bugs = Bug.find(:all, :project => @ui.projectList.currentItem.text, :name => query)
       end
       @ui.bugList.clear
       @bugs.each do |bug|
@@ -93,12 +94,14 @@ class MainWindow < Qt::MainWindow
     dialog.exec
     data = dialog.get_data
 
-    if data[:name] != ''
-      project = Project.new(:name => data[:name], :description => data[:description])
-      project.save
-      show_projects
-    else
-      Qt::MessageBox::critical(self, "Bugtracker", "Project name is required")
+    if data[:saved]
+      if data[:name] != ''
+        project = Project.new(:name => data[:name], :description => data[:description])
+        project.save
+        show_projects
+      else
+        Qt::MessageBox::critical(self, "Bugtracker", "Project name is required")
+      end
     end
   end
 
@@ -108,16 +111,18 @@ class MainWindow < Qt::MainWindow
       dialog.exec
       data = dialog.get_data
 
-      if data[:name] != ''
-        bug = Bug.new(:name => data[:name], :priority => data[:priority], :creator => 'admin', :project => @ui.projectList.currentItem.text)
-        bug.save
-        if data[:comment] != ''
-          comment = Comment.new(:name => 'admin', :text => data[:comment], :bug => bug.instance_id)
-          comment.save
+      if data[:saved]
+        if data[:name] != ''
+          bug = Bug.new(:name => data[:name], :priority => data[:priority], :creator => 'admin', :project => @ui.projectList.currentItem.text)
+          bug.save
+          if data[:comment] != ''
+            comment = Comment.new(:name => 'admin', :text => data[:comment], :bug => bug.instance_id)
+            comment.save
+          end
+          show_bugs_by_project(@ui.projectList.currentItem.text)
+        else
+          Qt::MessageBox::critical(self, "Bugtracker", "Bug name is required")
         end
-        show_bugs_by_project(@ui.projectList.currentItem.text)
-      else
-        Qt::MessageBox::critical(self, "Bugtracker", "Bug name is required")
       end
     else
       Qt::MessageBox::critical(self, "Bugtracker", "Select a project first")
@@ -155,14 +160,17 @@ class MainWindow < Qt::MainWindow
       window = BugWindow.new(nil, Bug.find(:first, :name => @ui.bugList.currentItem.text))
       window.exec
       data = window.get_data
-      bug.name = data[:name]
-      bug.priority = data[:priority]
-      bug.status = data[:status]
-      if data[:comment].size > 0
-        comment = Comment.new(:name => 'admin', :text => data[:comment], :bug => bug.instance_id)
-        comment.save
+
+      if data[:saved]
+        bug.name = data[:name]
+        bug.priority = data[:priority]
+        bug.status = data[:status]
+        if data[:comment].size > 0
+          comment = Comment.new(:name => 'admin', :text => data[:comment], :bug => bug.instance_id)
+          comment.save
+        end
+        show_bugs_by_project(@ui.projectList.currentItem.text)
       end
-      show_bugs_by_project(@ui.projectList.currentItem.text)
     else
       Qt::MessageBox::critical(self, "Bugtracker", "Select a bug first")
     end
@@ -170,6 +178,12 @@ class MainWindow < Qt::MainWindow
 
   def project_delete
     if @ui.projectList.currentItem
+      bugs = Bug.find(:all, :project => @ui.projectList.currentItem.text)
+      bugs.each do |bug|
+        bug.destroy
+      end
+      project = Project.find(:first, :name => @ui.projectList.currentItem.text)
+      project.destroy
       @ui.projectList.takeItem(@ui.projectList.currentRow)
       @ui.bugList.clear
     else

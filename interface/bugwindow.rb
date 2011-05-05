@@ -6,6 +6,7 @@ class BugWindow < Qt::Dialog
 
     @ui = Ui_BugWindow.new
     @ui.setupUi(self)
+    @save_changes = false
 
     @ui.nameEdit.setText(bug.name)
     @ui.creatorLabel.setText(bug.creator)
@@ -24,12 +25,15 @@ class BugWindow < Qt::Dialog
 
     comments = Comment.find(:all, :bug => bug.instance_id)
     comments.each do |comment|
-      @ui.formLayout.addRow(comment.name, Qt::Label.new(comment.text))
+      text = Qt::Label.new(comment.text)
+      @ui.formLayout.addRow(comment.name + ':', text)
     end
+    @ui.cancelButton.connect(SIGNAL(:clicked)) { close }
     @ui.saveButton.connect(SIGNAL(:clicked), &method(:process))
   end
 
   def process
+    @save_changes = true
     close
   end
 
@@ -45,6 +49,6 @@ class BugWindow < Qt::Dialog
       when 2 then :fixed
       when 3 then :invalid
     end
-    { :name => @ui.nameEdit.text, :priority => priority, :status => status, :comment => @ui.commentEdit.toPlainText }
+    { :saved => @save_changes, :name => @ui.nameEdit.text, :priority => priority, :status => status, :comment => @ui.commentEdit.toPlainText }
   end
 end
