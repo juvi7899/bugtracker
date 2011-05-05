@@ -2,6 +2,6 @@
 1: !ruby/object:Project 
   bugs: []
 
-  description: "Test Description"
+  description: Descr
   instance_id: 1
-  name: "Test Project"
+  name: New project

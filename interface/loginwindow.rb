@@ -26,7 +26,7 @@ class LoginWindow < Qt::Widget
     if @user
       main_window = MainWindow.new
       main_window.show
-      hide
+      close
     else
       Qt::MessageBox::critical(self, "Login failed", "Login failed\nPlease check your username and password")
     end

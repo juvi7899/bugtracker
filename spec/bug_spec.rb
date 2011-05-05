@@ -56,6 +56,10 @@ describe Bug, "when first created" do
   it "should have a correct project name" do
     @bugs.project.should eql('projektas')
   end
+
+  it "should have a positive id" do
+    @bugs.instance_id.should be_positive
+  end
 end
 
 describe Bug, "when modified" do

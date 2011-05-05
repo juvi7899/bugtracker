@@ -2,7 +2,7 @@ require 'time'
 require './logic/simplerecord'
 
 class Bug < SimpleRecord
-  has_one :name, :priority, :status, :creator, :time, :date, :assignees, :important, :private
+  has_one :name, :priority, :status, :creator, :time, :date, :assignees, :important, :private, :project
 
   def initialize(params = {})
     super()
@@ -14,6 +14,7 @@ class Bug < SimpleRecord
     @assignees = []
     @important = false
     @private = false
+    @project = params[:project]
   end
 
   def date
