@@ -9,8 +9,9 @@ require './logic/comment'
 class MainWindow < Qt::MainWindow
   slots 'project_clicked(QListWidgetItem*)'
 
-  def initialize(parent = nil)
+  def initialize(parent = nil, user = nil)
     super(parent)
+    @user = user
 
     @ui = Ui::MainWindow.new
     @ui.setupUi(self)
@@ -113,10 +114,10 @@ class MainWindow < Qt::MainWindow
 
       if data[:saved]
         if data[:name] != ''
-          bug = Bug.new(:name => data[:name], :priority => data[:priority], :creator => 'admin', :project => @ui.projectList.currentItem.text)
+          bug = Bug.new(:name => data[:name], :priority => data[:priority], :creator => @user.name, :project => @ui.projectList.currentItem.text)
           bug.save
           if data[:comment] != ''
-            comment = Comment.new(:name => 'admin', :text => data[:comment], :bug => bug.instance_id)
+            comment = Comment.new(:name => @user.name, :text => data[:comment], :bug => bug.instance_id)
             comment.save
           end
           show_bugs_by_project(@ui.projectList.currentItem.text)
@@ -166,7 +167,7 @@ class MainWindow < Qt::MainWindow
         bug.priority = data[:priority]
         bug.status = data[:status]
         if data[:comment].size > 0
-          comment = Comment.new(:name => 'admin', :text => data[:comment], :bug => bug.instance_id)
+          comment = Comment.new(:name => @user.name, :text => data[:comment], :bug => bug.instance_id)
           comment.save
         end
         show_bugs_by_project(@ui.projectList.currentItem.text)
@@ -177,31 +178,39 @@ class MainWindow < Qt::MainWindow
   end
 
   def project_delete
-    if @ui.projectList.currentItem
-      bugs = Bug.find(:all, :project => @ui.projectList.currentItem.text)
-      bugs.each do |bug|
-        bug.destroy
+    if @user.type == :admin
+      if @ui.projectList.currentItem
+        bugs = Bug.find(:all, :project => @ui.projectList.currentItem.text)
+        bugs.each do |bug|
+          bug.destroy
+        end
+        project = Project.find(:first, :name => @ui.projectList.currentItem.text)
+        project.destroy
+        @ui.projectList.takeItem(@ui.projectList.currentRow)
+        @ui.bugList.clear
+      else
+        Qt::MessageBox::critical(self, "Bugtracker", "Select a project first")
       end
-      project = Project.find(:first, :name => @ui.projectList.currentItem.text)
-      project.destroy
-      @ui.projectList.takeItem(@ui.projectList.currentRow)
-      @ui.bugList.clear
     else
-      Qt::MessageBox::critical(self, "Bugtracker", "Select a project first")
+      Qt::MessageBox::critical(self, "Bugtracker", "Sorry, only admins can delete projects")
     end
   end
 
   def bug_delete
-    if @ui.bugList.currentItem
-      bug = Bug.find(:first, :name => @ui.bugList.currentItem.text)
-      comments = Comment.find(:all, :bug => bug.instance_id)
-      comments.each do |comment|
-        comment.destroy
+    if @user.type == :admin
+      if @ui.bugList.currentItem
+        bug = Bug.find(:first, :name => @ui.bugList.currentItem.text)
+        comments = Comment.find(:all, :bug => bug.instance_id)
+        comments.each do |comment|
+          comment.destroy
+        end
+        bug.destroy
+        @ui.bugList.takeItem(@ui.bugList.currentRow)
+      else
+        Qt::MessageBox::critical(self, "Bugtracker", "Select a bug first")
       end
-      bug.destroy
-      @ui.bugList.takeItem(@ui.bugList.currentRow)
     else
-      Qt::MessageBox::critical(self, "Bugtracker", "Select a bug first")
+      Qt::MessageBox::critical(self, "Bugtracker", "Sorry, only admins can delete bugs")
     end
   end
 end

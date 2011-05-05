@@ -14,14 +14,4 @@ class Log
   def [](index)
     @entries[index]
   end
-
-  def find(text)
-    result = []
-    @entries.each do |entry|
-      if entry.downcase.index(text.downcase)
-        result << entry
-      end
-    end
-    result
-  end
 end

@@ -19,15 +19,4 @@ describe Log, "when modified" do
     @log.add('sample message')
     @log[0].should eql('sample message')
   end
-
-  # Does not check case-insensitivity
-  it "should perform a search successfully" do
-    @log.add('sample message')
-    @log.find('ple mes').should include('sample message')
-  end
-
-  it "should perform a case-insensitive search successfully" do
-    @log.add('abcd')
-    @log.find('aBcD').should include('abcd')
-  end
 end

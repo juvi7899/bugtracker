@@ -36,6 +36,11 @@ describe Comment, "when modified" do
   end
 
   it "should add a file successfully" do
-    @comments.file = "/home/julius/bugtracker/README"
+    lambda {
+      temp_file = '/tmp/comment_spec.temp'
+      FileUtils.touch(temp_file)
+      @comments.file = temp_file
+      File.delete(temp_file)
+    }.should_not raise_exception
   end
 end

@@ -4,8 +4,8 @@ RSpec::Matchers.define :be_just_now do
   end
 end
 
-RSpec::Matchers.define :be_positive do
+RSpec::Matchers.define :be_natural_number do
   match do |actual|
-    actual > 0
+    actual.is_a?(Integer) && actual >= 1
   end
 end

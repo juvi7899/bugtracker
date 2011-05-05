@@ -2,6 +2,7 @@ require './logic/user'
 
 describe User, "when first created" do
   before(:each) do
+    User.clear
     @users = User.new(:name => 'julius', :password => 'secret', :type => :admin)
   end
 
@@ -32,18 +33,26 @@ describe User, "when first created" do
 
   it "should allow login with correct credentials" do
     @users.save
-    @user = User.login('julius', 'secret')
-    @user.name.should eql('julius')
+    user = User.login('julius', 'secret')
+    user.name.should eql('julius')
   end
 end
 
 describe User, "when modified" do
   before(:each) do
+    User.clear
     @users = User.new(:name => 'julius', :password => 'secret', :type => :admin)
   end
 
   it "should create a hash when changing password" do
     @users.password = 'qwerty'
     @users.password.should eql('b1b3773a05c0ed0176787a4f1574ff0075f7521e')
+  end
+
+  it "should not login when banned" do
+    @users.banned = true
+    @users.save
+    user = User.login('julius', 'secret')
+    user.should be_nil
   end
 end

@@ -27,26 +27,26 @@ describe Bug, "when first created" do
     @bugs.creator.should eql('julius')
   end
 
-  it "should have an empty list of asignees" do
+  it "should have an empty list of assignees" do
     @bugs.assignees.should be_empty
   end
   
   # Does not check if field exists
   it "should not have high importance" do
-    @bugs.important.should_not eql(true)
+    @bugs.important.should_not be_true
   end
 
   # Does not check if field exists
   it "should not be private" do
-    @bugs.private.should_not eql(true)
+    @bugs.private.should_not be_true
   end
 
   it "should have default importance" do
-    @bugs.important.should eql(false)
+    @bugs.important.should be_false
   end
 
   it "should have default privacy" do
-    @bugs.private.should eql(false)
+    @bugs.private.should be_false
   end
 
   it "should have a correct creation date" do
@@ -58,7 +58,7 @@ describe Bug, "when first created" do
   end
 
   it "should have a positive id" do
-    @bugs.instance_id.should be_positive
+    @bugs.instance_id.should be_natural_number
   end
 end
 
