@@ -92,6 +92,6 @@ describe SimpleRecord do
   it "should return a size of records successfully" do
     @logins.save
     elements = LoginList.find(:all)
-    @logins.size.should eql(elements.size)
+    LoginList.size.should eql(elements.size)
   end
 end

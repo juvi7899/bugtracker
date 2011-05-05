@@ -36,6 +36,10 @@ class SimpleRecord
       @records = {}
     end
 
+    def size
+      @records.size
+    end
+
     def get_instance_id
       @instance_count ||= 0
       @instance_count += 1
