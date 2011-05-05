@@ -3,7 +3,7 @@ require 'tmpdir'
 
 describe Comment, "when first created" do
   before(:each) do
-    @comments = Comment.new(:name => 'julius', :text => 'Lorem Ipsum')
+    @comments = Comment.new(:name => 'julius', :text => 'Lorem Ipsum', :bug => 0)
   end
 
   it "should have a commenter's name" do
@@ -16,6 +16,10 @@ describe Comment, "when first created" do
 
   it "should have no files attached" do
     @comments.file.should be_nil
+  end
+
+  it "should have a correct bug id" do
+    @comments.bug.should be_zero
   end
 end
 
