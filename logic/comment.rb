@@ -1,12 +1,13 @@
 require './logic/simplerecord'
 
 class Comment < SimpleRecord
-  has_one :name, :text, :file
+  has_one :name, :text, :file, :bug
 
   def initialize(params = {})
     super()
     @name = params[:name]
     @text = params[:text]
+    @bug = params[:bug]
   end
 
   def file=(file_name)
