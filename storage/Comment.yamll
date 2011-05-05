@@ -1,0 +1,6 @@
+--- 
+1: !ruby/object:Comment 
+  bug: 1
+  instance_id: 1
+  name: admin
+  text: Some comment

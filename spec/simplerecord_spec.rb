@@ -94,4 +94,9 @@ describe SimpleRecord do
     elements = LoginList.find(:all)
     LoginList.size.should eql(elements.size)
   end
+
+  it "should create a new file successfully" do
+    LoginList.read_or_create('LoginList.new')
+    File('storage/LoginList.new.yaml').should exist
+  end
 end

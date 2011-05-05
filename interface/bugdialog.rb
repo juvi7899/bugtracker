@@ -30,6 +30,6 @@ class BugDialog < Qt::Dialog
   end
 
   def get_data
-    { :name => @name_edit.text, :priority => @priority_edit.text, :description => @description_edit.text }
+    { :name => @name_edit.text, :priority => @priority_edit.text, :comment => @description_edit.text }
   end
 end

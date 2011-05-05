@@ -1,16 +1,4 @@
 --- 
-1: !ruby/object:Bug 
-  assignees: []
-
-  creator: admin
-  important: false
-  instance_id: 1
-  name: something is wrong
-  priority: :normal
-  private: false
-  project: New project
-  status: :new
-  time: 2011-05-04 19:07:14.271942 +03:00
 2: !ruby/object:Bug 
   assignees: []
 
@@ -18,7 +6,7 @@
   important: false
   instance_id: 2
   name: new bug
-  priority: high
+  priority: :high
   private: false
   project: New project
   status: :new

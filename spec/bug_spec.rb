@@ -4,15 +4,15 @@ require './logic/bug'
 
 describe Bug, "when first created" do
   before(:each) do
-    @bugs = Bug.new(:name => 'something is wrong', :priority => :normal, :creator => 'julius', :project => 'projektas')
+    @bugs = Bug.new(:name => 'something is wrong', :priority => :medium, :creator => 'julius', :project => 'projektas')
   end
 
   it "should have a correct name" do
     @bugs.name.should eql('something is wrong')
   end
 
-  it "should have a default (normal) priority" do
-    @bugs.priority.should eql(:normal)
+  it "should have a default (medium) priority" do
+    @bugs.priority.should eql(:medium)
   end
 
   it "should have a status of 'NEW'" do
@@ -64,7 +64,7 @@ end
 
 describe Bug, "when modified" do
   before(:each) do
-    @bugs = Bug.new(:name => 'something is wrong', :priority => :normal, :creator => 'julius')
+    @bugs = Bug.new(:name => 'something is wrong', :priority => :medium, :creator => 'julius')
   end
 
   it "should assign new person properly" do
