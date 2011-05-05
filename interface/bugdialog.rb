@@ -16,8 +16,10 @@ class BugDialog < Qt::Dialog
     @priority_box.addItem("High")
     @priority_box.setCurrentIndex(1)
     layout.addRow("Priority:", @priority_box)
-    @description_edit = Qt::LineEdit.new
-    layout.addRow("Comment:", @description_edit)
+    @important_box = Qt::CheckBox.new("")
+    layout.addRow("Important:", @important_box)
+    @comment_edit = Qt::LineEdit.new
+    layout.addRow("Comment:", @comment_edit)
     cancel_button = Qt::PushButton.new("Cancel")
     save_button = Qt::PushButton.new(mode)
     cancel_button.connect(SIGNAL(:clicked)) { close }
@@ -42,7 +44,8 @@ class BugDialog < Qt::Dialog
       :saved => @save_changes,
       :name => @name_edit.text,
       :priority => priority,
-      :comment => @description_edit.text
+      :comment => @comment_edit.text,
+      :important => (@important_box.checkState == Qt::Checked)
     }
   end
 

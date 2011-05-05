@@ -28,7 +28,7 @@ describe User, "when first created" do
   end
   
   it "should have a current registration time" do
-    @users.registered.should be_just_now
+    @users.registered.to_s.should eql(Time.now.to_s)
   end
 
   it "should allow login with correct credentials" do

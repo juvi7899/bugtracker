@@ -95,7 +95,7 @@ class MainWindow < Qt::MainWindow
       item = Qt::ListWidgetItem.new
       item.setText(bug.name)
 
-      if bug.priority == :high
+      if bug.priority == :high && bug.status == :new || bug.status == :reopened
         font = item.font
         font.setBold(true)
         item.setFont(font)
@@ -138,7 +138,11 @@ class MainWindow < Qt::MainWindow
       if data[:saved]
 
         if data[:name] != ''
-          bug = Bug.new(:name => data[:name], :priority => data[:priority], :creator => @user.name, :project => @ui.projectList.currentItem.text)
+          bug = Bug.new(:name => data[:name],
+                        :priority => data[:priority],
+                        :creator => @user.name,
+                        :project => @ui.projectList.currentItem.text,
+                        :important => data[:important])
           bug.save
 
           if data[:comment] != ''

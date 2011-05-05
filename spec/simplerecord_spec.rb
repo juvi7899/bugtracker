@@ -67,20 +67,11 @@ describe SimpleRecord do
   end
 
   it "should write to file successfully" do
-    lines_1 = []
-    lines_2 = []
-
     @logins.save
     LoginList.write('LoginList.temp')
-    file = File.open("storage/LoginList.yaml", "r")
-    while (line = file.gets)
-      lines_1 << line
-    end
-    file = File.open("storage/LoginList.comp.yaml", "r")
-    while (line = file.gets)
-      lines_2 << line
-    end
-    lines_1.should eql(lines_2)
+    file1 = "storage/LoginList.yaml"
+    file2 = "storage/LoginList.comp.yaml"
+    file1.should have_identical_contents_with(file2)
   end
 
   it "should clear records successfully" do

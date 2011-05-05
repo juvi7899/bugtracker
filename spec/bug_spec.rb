@@ -20,7 +20,7 @@ describe Bug, "when first created" do
   end
 
   it "should have a current creation time" do
-    @bugs.time.should be_just_now
+    @bugs.time.to_s.should eql(Time.now.to_s)
   end
 
   it "should return creator's name" do
