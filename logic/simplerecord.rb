@@ -31,12 +31,15 @@ class SimpleRecord
         @instance_count = 0
       else
         File.open("storage/" + file_name + ".yaml", "r") { |file| @records = YAML.load(file) }
+
         if @records.size > 0
           @instance_count = @records[@records.keys.last].instance_id
         else
           @instance_count = 0
         end
+
       end
+
     end
 
     def read_or_create(file_name = self.to_s)
@@ -45,6 +48,7 @@ class SimpleRecord
       if !File.exists?(file_path)
         FileUtils.touch(file_path)
       end
+
       read(file_name)
     end
 
@@ -82,12 +86,15 @@ class SimpleRecord
 
     def has_one(*fields)
       fields.each do |field|
+
         define_method(field) do
           instance_variable_get("@#{field}")
         end
+
         define_method("#{field}=") do |val|
           instance_variable_set("@#{field}", val)
         end
+
       end
     end
 
@@ -97,9 +104,12 @@ class SimpleRecord
 
       @records.each_value do |record|
         matching = true
+
         params.each_key do |key|
           begin
+
             if params[key].class.to_s == "String"
+
               if params[key][0] == '~'
                 if !record.__send__(key).downcase.index(params[key].downcase[1,params[key].size])
                   matching = false
@@ -107,15 +117,20 @@ class SimpleRecord
               elsif record.__send__(key).downcase != params[key].downcase
                 matching = false
               end
+
             else
+
               if record.__send__(key) != params[key]
                 matching = false
               end
+
             end
+
           rescue NoMethodError
             matching = false
           end
         end
+
         if matching
           if what == :first
             return record
@@ -123,12 +138,16 @@ class SimpleRecord
             result << record
           end
         end
+
       end
+
       if what == :first
         nil
       else
         result
       end
+
     end
+
   end
 end

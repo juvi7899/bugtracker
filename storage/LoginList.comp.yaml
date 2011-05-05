@@ -1,0 +1,6 @@
+---
+1: !ruby/object:LoginList
+  instance_id: 1
+  username: Vardenis
+  password: Slaptazodis
+  number: 0

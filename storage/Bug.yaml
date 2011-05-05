@@ -1,2 +1,13 @@
---- {}
+--- 
+1: !ruby/object:Bug 
+  assignees: []
 
+  creator: user
+  important: false
+  instance_id: 1
+  name: Niekas neveikia
+  priority: :high
+  private: false
+  project: Mano projektas
+  status: :new
+  time: 2011-05-05 15:45:03.804604 +03:00

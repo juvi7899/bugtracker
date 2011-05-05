@@ -1,2 +1,16 @@
---- {}
-
+--- 
+1: !ruby/object:Comment 
+  bug: 1
+  instance_id: 1
+  name: user
+  text: Patikrinau ir niekas neveikia.
+2: !ruby/object:Comment 
+  bug: 1
+  instance_id: 2
+  name: admin
+  text: "Man tai viskas veikia. Gali b\xC5\xABti taip, kad tavo klaviat\xC5\xABra u\xC5\xBEsikim\xC5\xA1us po vakar."
+3: !ruby/object:Comment 
+  bug: 1
+  instance_id: 3
+  name: user
+  text: "Teisingai, a\xC5\xA1 ir \xC5\xBEi\xC5\xABriu ko \xC4\x8Dia tie mygtukai nenori veikti normaliai..."

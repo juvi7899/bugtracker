@@ -1,9 +1,9 @@
 require 'Qt4'
 
 class BugDialog < Qt::Dialog
+
   def initialize(mode)
     super()
-
     setWindowTitle(mode + " Bug")
     @save_changes = false
 
@@ -37,6 +37,13 @@ class BugDialog < Qt::Dialog
       when 1 then :medium
       when 2 then :high
     end
-    { :saved => @save_changes, :name => @name_edit.text, :priority => priority, :comment => @description_edit.text }
+
+    {
+      :saved => @save_changes,
+      :name => @name_edit.text,
+      :priority => priority,
+      :comment => @description_edit.text
+    }
   end
+
 end

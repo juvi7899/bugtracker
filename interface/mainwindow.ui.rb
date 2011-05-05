@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'mainwindow.ui'
 **
-** Created: Kt Geg 5 01:20:19 2011
+** Created: Kt Geg 5 16:21:46 2011
 **      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!

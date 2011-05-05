@@ -1,6 +1,7 @@
 require 'Qt4'
 
 class ProjectDialog < Qt::Dialog
+
   def initialize(mode)
     super()
 
@@ -33,4 +34,5 @@ class ProjectDialog < Qt::Dialog
   def get_data
     { :saved => @save_changes, :name => @name_edit.text, :description => @description_edit.text }
   end
+
 end

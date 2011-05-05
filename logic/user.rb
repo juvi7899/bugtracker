@@ -21,4 +21,5 @@ class User < SimpleRecord
   def self.login(username, password)
     self.find(:first, :name => username, :password => Digest::SHA1.hexdigest(password), :banned => false)
   end
+
 end

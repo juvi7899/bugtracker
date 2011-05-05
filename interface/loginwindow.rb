@@ -3,8 +3,9 @@ require './logic/user'
 require './interface/mainwindow'
 
 class LoginWindow < Qt::Widget
+
   def initialize
-    super
+    super()
     setWindowTitle("Bugtracker - Login")
 
     layout = Qt::FormLayout.new(self)
@@ -23,6 +24,7 @@ class LoginWindow < Qt::Widget
   def login
     User.read
     @user = User.login(@username_edit.text, @password_edit.text)
+
     if @user
       main_window = MainWindow.new(nil, @user)
       main_window.show
@@ -30,5 +32,7 @@ class LoginWindow < Qt::Widget
     else
       Qt::MessageBox::critical(self, "Login failed", "Login failed\nPlease check your username and password")
     end
+
   end
+
 end

@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'bugwindow.ui'
 **
-** Created: Kt Geg 5 10:47:01 2011
+** Created: Kt Geg 5 16:32:17 2011
 **      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -22,6 +22,8 @@ class Ui_BugWindow
     attr_reader :statusBox
     attr_reader :verticalSpacer
     attr_reader :label_6
+    attr_reader :importantCheck
+    attr_reader :label_8
     attr_reader :gridLayout
     attr_reader :label_7
     attr_reader :commentEdit
@@ -63,12 +65,12 @@ class Ui_BugWindow
     @label_4 = Qt::Label.new(bugWindow)
     @label_4.objectName = "label_4"
 
-    @formLayout.setWidget(3, Qt::FormLayout::LabelRole, @label_4)
+    @formLayout.setWidget(4, Qt::FormLayout::LabelRole, @label_4)
 
     @label_5 = Qt::Label.new(bugWindow)
     @label_5.objectName = "label_5"
 
-    @formLayout.setWidget(4, Qt::FormLayout::LabelRole, @label_5)
+    @formLayout.setWidget(5, Qt::FormLayout::LabelRole, @label_5)
 
     @dateLabel = Qt::Label.new(bugWindow)
     @dateLabel.objectName = "dateLabel"
@@ -77,13 +79,13 @@ class Ui_BugWindow
     @font.weight = 75
     @dateLabel.font = @font
 
-    @formLayout.setWidget(4, Qt::FormLayout::FieldRole, @dateLabel)
+    @formLayout.setWidget(5, Qt::FormLayout::FieldRole, @dateLabel)
 
     @creatorLabel = Qt::Label.new(bugWindow)
     @creatorLabel.objectName = "creatorLabel"
     @creatorLabel.font = @font
 
-    @formLayout.setWidget(3, Qt::FormLayout::FieldRole, @creatorLabel)
+    @formLayout.setWidget(4, Qt::FormLayout::FieldRole, @creatorLabel)
 
     @priorityBox = Qt::ComboBox.new(bugWindow)
     @priorityBox.objectName = "priorityBox"
@@ -97,12 +99,22 @@ class Ui_BugWindow
 
     @verticalSpacer = Qt::SpacerItem.new(20, 40, Qt::SizePolicy::Minimum, Qt::SizePolicy::Expanding)
 
-    @formLayout.setItem(5, Qt::FormLayout::LabelRole, @verticalSpacer)
+    @formLayout.setItem(6, Qt::FormLayout::LabelRole, @verticalSpacer)
 
     @label_6 = Qt::Label.new(bugWindow)
     @label_6.objectName = "label_6"
 
-    @formLayout.setWidget(6, Qt::FormLayout::LabelRole, @label_6)
+    @formLayout.setWidget(7, Qt::FormLayout::LabelRole, @label_6)
+
+    @importantCheck = Qt::CheckBox.new(bugWindow)
+    @importantCheck.objectName = "importantCheck"
+
+    @formLayout.setWidget(3, Qt::FormLayout::FieldRole, @importantCheck)
+
+    @label_8 = Qt::Label.new(bugWindow)
+    @label_8.objectName = "label_8"
+
+    @formLayout.setWidget(3, Qt::FormLayout::LabelRole, @label_8)
 
 
     @_2.addLayout(@formLayout)
@@ -171,6 +183,8 @@ class Ui_BugWindow
         Qt::Application.translate("BugWindow", "Fixed", nil, Qt::Application::UnicodeUTF8),
         Qt::Application.translate("BugWindow", "Invalid", nil, Qt::Application::UnicodeUTF8)])
     @label_6.text = Qt::Application.translate("BugWindow", "Comments:", nil, Qt::Application::UnicodeUTF8)
+    @importantCheck.text = ''
+    @label_8.text = Qt::Application.translate("BugWindow", "Important:", nil, Qt::Application::UnicodeUTF8)
     @label_7.text = Qt::Application.translate("BugWindow", "Add your comment:", nil, Qt::Application::UnicodeUTF8)
     @cancelButton.text = Qt::Application.translate("BugWindow", "Cancel", nil, Qt::Application::UnicodeUTF8)
     @saveButton.text = Qt::Application.translate("BugWindow", "Save and close", nil, Qt::Application::UnicodeUTF8)

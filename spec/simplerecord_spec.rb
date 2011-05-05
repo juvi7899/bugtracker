@@ -76,7 +76,7 @@ describe SimpleRecord do
     while (line = file.gets)
       lines_1 << line
     end
-    file = File.open("storage/LoginList.temp.yaml", "r")
+    file = File.open("storage/LoginList.comp.yaml", "r")
     while (line = file.gets)
       lines_2 << line
     end
@@ -96,15 +96,22 @@ describe SimpleRecord do
   end
 
   it "should create a new file successfully" do
-    File.delete('storage/LoginList.new.yaml')
-    LoginList.read_or_create('LoginList.new')
-    File.exists?('storage/LoginList.new.yaml').should be_true
+    file_name = "LoginList.new"
+    file_path = "storage/#{file_name}.yaml"
+
+    File.delete(file_path)
+    LoginList.read_or_create(file_name)
+    File.exists?(file_path).should be_true
   end
 
   it "should load a file successfully after creating it" do
+    file_name = "LoginList.new"
+    file_path = "storage/#{file_name}.yaml"
+
     lambda {
       LoginList.read('LoginList.new')
     }.should_not raise_exception
+    File.delete(file_path)
   end
 
   it "should load a non-empty file with no records successfully" do

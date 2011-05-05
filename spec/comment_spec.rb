@@ -21,6 +21,10 @@ describe Comment, "when first created" do
   it "should have a correct bug id" do
     @comments.bug.should be_zero
   end
+
+  it "should have a today's date" do
+    @comments.date.should eql(Date.today)
+  end
 end
 
 describe Comment, "when modified" do
