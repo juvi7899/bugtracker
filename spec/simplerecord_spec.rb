@@ -88,4 +88,10 @@ describe SimpleRecord do
     elements = LoginList.find(:all) 
     elements.should be_empty
   end
+
+  it "should return a size of records successfully" do
+    @logins.save
+    elements = LoginList.find(:all)
+    @logins.size.should eql(elements.size)
+  end
 end
