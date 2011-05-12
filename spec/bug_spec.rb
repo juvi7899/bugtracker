@@ -91,6 +91,11 @@ describe Bug, "when modified" do
       @bugs.creator = 'somebody'
     }.should raise_exception(NoMethodError)
   end
+  
+  it "should not find any bugs with incorrect project association" do
+    bug = Bug.find(:first, :project => @bugs)
+    bug.should be_nil
+  end
 end
 
 describe Bug, "after adding a comment" do

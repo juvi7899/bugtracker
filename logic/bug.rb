@@ -15,7 +15,7 @@ class Bug < SimpleRecord
     @creator = params[:creator]
     @time = Time.now
     @assignees = []
-    @important = false
+    @important = params[:important] || false
     @private = false
     @project = params[:project]
   end

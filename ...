@@ -12,8 +12,6 @@ class MainWindow < Qt::MainWindow
   def initialize(parent = nil, user = nil)
     super(parent)
     @user = user
-    @projects = []
-    @bugs = []
 
     @ui = Ui::MainWindow.new
     @ui.setupUi(self)
@@ -52,13 +50,13 @@ class MainWindow < Qt::MainWindow
 
   def selected_project
     if @ui.projectList.currentItem
-      Project.find(:first, :instance_id => @projects[@ui.projectList.currentRow])
+      Project.find(:first, :name => @ui.projectList.currentItem.text)
     end
   end
 
   def selected_bug
     if @ui.bugList.currentItem
-      Bug.find(:first, :instance_id => @bugs[@ui.bugList.currentRow])
+      Bug.find(:first, :name => @ui.bugList.currentItem.text)
     end
   end
 
@@ -73,7 +71,6 @@ class MainWindow < Qt::MainWindow
 
       @ui.bugList.clear
 
-      @bugs.clear
       bugs.each do |bug|
         item = Qt::ListWidgetItem.new
         item.setText(bug.name)
@@ -85,10 +82,8 @@ class MainWindow < Qt::MainWindow
         end
 
         if bug.important
-          @bugs.insert(0, bug.instance_id)
           @ui.bugList.insertItem(0, item)
         else
-          @bugs.insert(-1, bug.instance_id)
           @ui.bugList.addItem(item)
         end
 
@@ -104,15 +99,13 @@ class MainWindow < Qt::MainWindow
   end
 
   def show_projects
-    projects = Project.find(:all)
+    @projects = Project.find(:all)
     @ui.projectList.clear
 
-    @projects.clear
-    projects.each do |project|
+    @projects.each do |project|
       item = Qt::ListWidgetItem.new
       item.setText(project.name)
       item.setToolTip(project.description)
-      @projects << project.instance_id
       @ui.projectList.addItem(item)
     end
   end
@@ -120,7 +113,6 @@ class MainWindow < Qt::MainWindow
   def show_bugs_by_project(project)
     @ui.bugList.clear
 
-    @bugs.clear
     project.bugs.each do |bug|
       item = Qt::ListWidgetItem.new
       item.setText(bug.name)
@@ -132,10 +124,8 @@ class MainWindow < Qt::MainWindow
       end
 
       if bug.important
-        @bugs.insert(0, bug.instance_id)
         @ui.bugList.insertItem(0, item)
       else
-        @bugs.insert(-1, bug.instance_id)
         @ui.bugList.addItem(item)
       end
 
