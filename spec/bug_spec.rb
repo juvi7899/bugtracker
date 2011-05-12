@@ -4,7 +4,13 @@ require './logic/bug'
 
 describe Bug, "when first created" do
   before(:each) do
-    @bugs = Bug.new(:name => 'something is wrong', :priority => :medium, :creator => 'julius', :project => 'projektas')
+    Bug.clear
+    Project.clear
+
+    @project = Project.new(:name => 'projektas', :description => '')
+    @project.save
+    @bugs = Bug.new(:name => 'something is wrong', :priority => :medium, :creator => 'julius', :project => @project)
+    @bugs.save
   end
 
   it "should have a correct name" do
@@ -54,7 +60,7 @@ describe Bug, "when first created" do
   end
 
   it "should have a correct project name" do
-    @bugs.project.should eql('projektas')
+    @bugs.project.name.should eql('projektas')
   end
 
   it "should have a positive id" do
@@ -64,7 +70,9 @@ end
 
 describe Bug, "when modified" do
   before(:each) do
+    Bug.clear
     @bugs = Bug.new(:name => 'something is wrong', :priority => :medium, :creator => 'julius')
+    @bugs.save
   end
 
   it "should assign new person properly" do
@@ -85,3 +93,17 @@ describe Bug, "when modified" do
   end
 end
 
+describe Bug, "after adding a comment" do
+  before(:each) do
+    Comment.clear
+    Bug.clear
+    @bugs = Bug.new(:name => 'something is wrong', :priority => :medium, :creator => 'julius')
+    @bugs.save
+    @comments = Comment.new(:name => 'julius', :text => 'Sample comment', :bug => @bugs)
+    @comments.save
+  end
+
+  it "should return an associated comment" do
+    @bugs.comments[-1].text.should eql('Sample comment');
+  end
+end

@@ -3,6 +3,7 @@ require 'tmpdir'
 
 describe Comment, "when first created" do
   before(:each) do
+    Comment.clear
     @comments = Comment.new(:name => 'julius', :text => 'Lorem Ipsum', :bug => 0)
   end
 
@@ -29,6 +30,7 @@ end
 
 describe Comment, "when modified" do
   before(:each) do
+    Comment.clear
     @comments = Comment.new(:name => 'julius', :text => 'Lorem Ipsum')
   end
 

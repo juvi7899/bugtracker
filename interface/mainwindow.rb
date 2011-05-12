@@ -48,23 +48,46 @@ class MainWindow < Qt::MainWindow
 
   end
 
-  def search
+  def selected_project
     if @ui.projectList.currentItem
+      Project.find(:first, :name => @ui.projectList.currentItem.text)
+    end
+  end
+
+  def selected_bug
+    if @ui.bugList.currentItem
+      Bug.find(:first, :name => @ui.bugList.currentItem.text)
+    end
+  end
+
+  def search
+    if selected_project
 
       if @ui.searchEdit.text == ''
-        @bugs = Bug.find(:all, :project => @ui.projectList.currentItem.text)
+        bugs = selected_project.bugs
       else
-        query = '~' + @ui.searchEdit.text
-        @bugs = Bug.find(:all, :project => @ui.projectList.currentItem.text, :name => query)
+        bugs = selected_project.bugs(:name => '~' + @ui.searchEdit.text)
       end
 
       @ui.bugList.clear
 
-      @bugs.each do |bug|
+      bugs.each do |bug|
         item = Qt::ListWidgetItem.new
         item.setText(bug.name)
-        @ui.bugList.addItem(item)
-      end
+
+        if bug.priority == :high && bug.status == :new || bug.status == :reopened
+          font = item.font
+          font.setBold(true)
+          item.setFont(font)
+        end
+
+        if bug.important
+          @ui.bugList.insertItem(0, item)
+        else
+          @ui.bugList.addItem(item)
+        end
+
+    end
 
     else
       Qt::MessageBox::critical(self, "Bugtracker", "Select a project first")
@@ -72,7 +95,7 @@ class MainWindow < Qt::MainWindow
   end
 
   def project_clicked(list_item)
-    show_bugs_by_project(list_item.text)
+    show_bugs_by_project(selected_project)
   end
 
   def show_projects
@@ -88,10 +111,9 @@ class MainWindow < Qt::MainWindow
   end
 
   def show_bugs_by_project(project)
-    @bugs = Bug.find(:all, :project => project)
     @ui.bugList.clear
 
-    @bugs.each do |bug|
+    project.bugs.each do |bug|
       item = Qt::ListWidgetItem.new
       item.setText(bug.name)
 
@@ -130,7 +152,7 @@ class MainWindow < Qt::MainWindow
 
   def bug_add
 
-    if @ui.projectList.currentItem
+    if selected_project
       dialog = BugDialog.new("Add")
       dialog.exec
       data = dialog.get_data
@@ -141,7 +163,7 @@ class MainWindow < Qt::MainWindow
           bug = Bug.new(:name => data[:name],
                         :priority => data[:priority],
                         :creator => @user.name,
-                        :project => @ui.projectList.currentItem.text,
+                        :project => selected_project,
                         :important => data[:important])
           bug.save
 
@@ -150,7 +172,7 @@ class MainWindow < Qt::MainWindow
             comment.save
           end
 
-          show_bugs_by_project(@ui.projectList.currentItem.text)
+          show_bugs_by_project(selected_project)
         else
           Qt::MessageBox::critical(self, "Bugtracker", "Bug name is required")
         end
@@ -163,22 +185,14 @@ class MainWindow < Qt::MainWindow
   end
 
   def project_edit
+    if selected_project
+      project = selected_project
 
-    if @ui.projectList.currentItem
-      project = Project.find(:first, :name => @ui.projectList.currentItem.text)
-    end
-
-    if project
       dialog = ProjectDialog.new("Edit")
       dialog.exec
       data = dialog.get_data
 
       if data[:name] != ''
-        @bugs.each do |bug|
-          bug.project = data[:name]
-          bug.save
-        end
-
         project.name = data[:name]
         project.description = data[:description]
         project.save
@@ -192,24 +206,24 @@ class MainWindow < Qt::MainWindow
 
   def bug_view
 
-    if @ui.bugList.currentItem
-      bug = Bug.find(:first, :name => @ui.bugList.currentItem.text)
-      window = BugWindow.new(nil, Bug.find(:first, :name => @ui.bugList.currentItem.text))
+    if selected_bug
+      window = BugWindow.new(nil, selected_bug)
       window.exec
       data = window.get_data
 
       if data[:saved]
-        bug.name = data[:name]
-        bug.priority = data[:priority]
-        bug.status = data[:status]
-        bug.important = data[:important]
+        selected_bug.name = data[:name]
+        selected_bug.priority = data[:priority]
+        selected_bug.status = data[:status]
+        selected_bug.important = data[:important]
+        selected_bug.save
 
         if data[:comment].size > 0
-          comment = Comment.new(:name => @user.name, :text => data[:comment], :bug => bug.instance_id)
+          comment = Comment.new(:name => @user.name, :text => data[:comment], :bug => selected_bug)
           comment.save
         end
 
-        show_bugs_by_project(@ui.projectList.currentItem.text)
+        show_bugs_by_project(selected_project)
       end
     else
       Qt::MessageBox::critical(self, "Bugtracker", "Select a bug first")
@@ -221,15 +235,12 @@ class MainWindow < Qt::MainWindow
 
     if @user.type == :admin
 
-      if @ui.projectList.currentItem
-        bugs = Bug.find(:all, :project => @ui.projectList.currentItem.text)
-
-        bugs.each do |bug|
+      if selected_project
+        selected_project.bugs.each do |bug|
           bug.destroy
         end
 
-        project = Project.find(:first, :name => @ui.projectList.currentItem.text)
-        project.destroy
+        selected_project.destroy
         @ui.projectList.takeItem(@ui.projectList.currentRow)
         @ui.bugList.clear
       else
@@ -246,15 +257,12 @@ class MainWindow < Qt::MainWindow
 
     if @user.type == :admin
 
-      if @ui.bugList.currentItem
-        bug = Bug.find(:first, :name => @ui.bugList.currentItem.text)
-        comments = Comment.find(:all, :bug => bug.instance_id)
-
-        comments.each do |comment|
+      if selected_bug
+        selected_bug.comments.each do |comment|
           comment.destroy
         end
 
-        bug.destroy
+        selected_bug.destroy
         @ui.bugList.takeItem(@ui.bugList.currentRow)
       else
         Qt::MessageBox::critical(self, "Bugtracker", "Select a bug first")

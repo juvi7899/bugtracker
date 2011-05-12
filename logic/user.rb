@@ -3,7 +3,7 @@ require 'time'
 require './logic/simplerecord'
 
 class User < SimpleRecord
-  has_one :name, :password, :type, :banned, :registered
+  attr_accessor :name, :password, :type, :banned, :registered
 
   def initialize(params = {})
     super()

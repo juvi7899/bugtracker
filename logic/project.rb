@@ -1,7 +1,8 @@
 require './logic/simplerecord'
 
 class Project < SimpleRecord
-  has_one :name, :description, :bugs
+  attr_accessor :name, :description
+  has_many :Bug, :project, :bugs
 
   def initialize(params = {})
     super()

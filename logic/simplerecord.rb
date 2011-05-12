@@ -30,7 +30,7 @@ class SimpleRecord
         @records = {}
         @instance_count = 0
       else
-        File.open("storage/" + file_name + ".yaml", "r") { |file| @records = YAML.load(file) }
+        File.open(file_path, "r") { |file| @records = YAML.load(file) }
 
         if @records.size > 0
           @instance_count = @records[@records.keys.last].instance_id
@@ -84,18 +84,21 @@ class SimpleRecord
       @records.delete(instance.instance_id)
     end
 
-    def has_one(*fields)
-      fields.each do |field|
+    alias :has_one :attr_accessor
+    alias :belongs_to :attr_accessor
 
-        define_method(field) do
-          instance_variable_get("@#{field}")
-        end
+    def has_many(related_class, related_class_method, field)
 
-        define_method("#{field}=") do |val|
-          instance_variable_set("@#{field}", val)
-        end
-
+      define_method(field) do |*val|
+        params = { related_class_method.to_s => self }
+        params = params.merge(val[0]) if !val.empty?
+        Kernel.const_get(related_class).__send__ :find, :all, params
       end
+      
+      define_method("#{field}=") do |val|
+        instance_variable_set("@#{field}", val)
+      end
+
     end
 
     def find(what, params = {})
@@ -108,9 +111,14 @@ class SimpleRecord
         params.each_key do |key|
           begin
 
-            if params[key].class.to_s == "String"
+            if params[key].kind_of?(SimpleRecord)
+              if record.__send__(key).class.to_s != params[key].class.to_s || record.__send__(key).instance_id != params[key].instance_id
+                  matching = false
+              end
 
-              if params[key][0] == '~'
+            elsif params[key].class.to_s == "String"
+
+              if params[key].start_with?('~')
                 if !record.__send__(key).downcase.index(params[key].downcase[1,params[key].size])
                   matching = false
                 end

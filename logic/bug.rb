@@ -2,7 +2,10 @@ require 'time'
 require './logic/simplerecord'
 
 class Bug < SimpleRecord
-  has_one :name, :priority, :status, :creator, :time, :date, :assignees, :important, :private, :project
+  attr_reader :creator
+  attr_accessor :name, :priority, :status, :time, :date, :assignees, :important, :private
+  has_many :Comment, :bug, :comments
+  belongs_to :project
 
   def initialize(params = {})
     super()
@@ -19,9 +22,5 @@ class Bug < SimpleRecord
 
   def date
     @date || @date = Date.parse(@time.to_s)
-  end
-
-  def creator=(new_creator)
-    raise NoMethodError
   end
 end

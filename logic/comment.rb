@@ -1,7 +1,8 @@
 require './logic/simplerecord'
 
 class Comment < SimpleRecord
-  has_one :name, :text, :file, :bug, :date
+  attr_accessor :name, :text, :file, :date
+  belongs_to :bug
 
   def initialize(params = {})
     super()

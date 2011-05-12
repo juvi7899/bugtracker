@@ -29,8 +29,7 @@ class BugWindow < Qt::Dialog
       @ui.importantCheck.setCheckState(Qt::Checked)
     end
 
-    comments = Comment.find(:all, :bug => bug.instance_id)
-    comments.each do |comment|
+    bug.comments.each do |comment|
       text = Qt::Label.new(comment.text)
       @ui.formLayout.addRow(comment.name + ':', text)
     end

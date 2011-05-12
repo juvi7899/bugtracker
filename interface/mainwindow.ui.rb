@@ -39,7 +39,7 @@ class Ui_MainWindow
     end
     mainWindow.resize(800, 600)
     icon = Qt::Icon.new
-    icon.addPixmap(Qt::Pixmap.new("pixmaps/bug.png"), Qt::Icon::Normal, Qt::Icon::Off)
+    icon.addPixmap(Qt::Pixmap.new("interface/pixmaps/bug.png"), Qt::Icon::Normal, Qt::Icon::Off)
     mainWindow.windowIcon = icon
     @actionQuit = Qt::Action.new(mainWindow)
     @actionQuit.objectName = "actionQuit"
