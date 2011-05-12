@@ -84,7 +84,7 @@ class SimpleRecord
       @records.delete(instance.instance_id)
     end
 
-    alias :has_one :attr_accessor
+    alias :has_one :attr_reader
     alias :belongs_to :attr_accessor
 
     def has_many(related_class, related_class_method, field)
@@ -93,10 +93,6 @@ class SimpleRecord
         params = { related_class_method.to_s => self }
         params = params.merge(val[0]) if !val.empty?
         Kernel.const_get(related_class).__send__ :find, :all, params
-      end
-      
-      define_method("#{field}=") do |val|
-        instance_variable_set("@#{field}", val)
       end
 
     end

@@ -1,7 +1,7 @@
 require './logic/simplerecord'
 
 class LoginList < SimpleRecord
-  has_one :username, :password, :number
+  attr_accessor :username, :password, :number
 
   def initialize(params)
     super()
